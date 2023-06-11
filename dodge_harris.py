@@ -2,14 +2,14 @@
 #make player display - done
     #make player move - done
 #make baddies appear
-    #make baddies move
-    #handle creation and deletion of baddies
+    #make baddies move - done
+    #handle creation and deletion of baddies - done
 #keep score based on clock
 #When badies and player collide, end game
 #figure out game loop
 
-import pygame,random,sys
-from pygame.locals import *
+import pygame,random,sys,os
+from pygame.locals import * 
 
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
@@ -18,6 +18,7 @@ PLAYERMOVESPEED = 5
 BACKGROUNDCOLOR = (0,0,0)
 BADDIESIZE = 40
 ADDBADDIERATE = 5
+
 
 pygame.init()
 mainClock = pygame.time.Clock()
