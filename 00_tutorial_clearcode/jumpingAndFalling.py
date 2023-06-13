@@ -54,7 +54,5 @@ while True:
         player_rect.bottom = 300 
     screen.blit(player_surf,player_rect)
 
-
-
     pygame.display.update()
     clock.tick(60)
