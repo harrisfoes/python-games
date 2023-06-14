@@ -48,9 +48,9 @@ while True:
         pygame.draw.rect(screen,'#c0e8ec',score_rect,10)
         screen.blit(score_surf,score_rect)
 
-        if snail_rect.right == 0:
+        if snail_rect.right <= 0:
             snail_rect.left = 800
-        snail_rect.x -= 4
+        snail_rect.x -= 6
         screen.blit(snail_surface,snail_rect)
 
         #Player
