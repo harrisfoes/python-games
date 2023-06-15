@@ -6,6 +6,7 @@ def display_score():
     score_surf = text_font.render(f'Score: {int(current_time / 1000)}',False,(64,64,64))
     score_rect = score_surf.get_rect(center = (400,50))
     screen.blit(score_surf,score_rect)
+    return int(current_time / 1000)
 
 
 pygame.init()
@@ -13,8 +14,10 @@ screen = pygame.display.set_mode((800,400))
 pygame.display.set_caption('Hawis')
 clock = pygame.time.Clock()
 text_font = pygame.font.Font('00_tutorial_clearcode/font/Pixeltype.ttf', 50)
+TEXTCOLOR = (111,196,169)
+score = 0
 
-game_active = True
+game_active = False
 start_time = 0
 
 sky_surface = pygame.image.load('00_tutorial_clearcode/graphics/Sky.png').convert()
@@ -29,6 +32,18 @@ snail_rect = snail_surface.get_rect(midbottom = (600,300))
 player_surf = pygame.image.load('00_tutorial_clearcode/graphics/player/player_walk_1.png').convert_alpha()
 player_rect = player_surf.get_rect(midbottom=(80,300))
 player_gravity = 0
+
+#Intro screen
+player_stand = pygame.image.load('00_tutorial_clearcode/graphics/player/player_stand.png').convert_alpha()
+player_stand = pygame.transform.rotozoom(player_stand,0,2)
+player_stand_rect = player_stand.get_rect(center = (400,200))
+
+title_surf = text_font.render('Running Game', False, TEXTCOLOR)
+title_rect = title_surf.get_rect(center = (400,50))
+instruction_surf = text_font.render('Press Space to start', False, TEXTCOLOR)
+instruction_rect = instruction_surf.get_rect(center = (400,325))
+
+
 
 while True:
     for event in pygame.event.get():
@@ -56,7 +71,8 @@ while True:
         #pygame.draw.rect(screen,'#c0e8ec',score_rect)
         #pygame.draw.rect(screen,'#c0e8ec',score_rect,10)
         #screen.blit(score_surf,score_rect)
-        display_score()
+        score = display_score()
+        print(score)
 
         if snail_rect.right <= 0:
             snail_rect.left = 800
@@ -73,8 +89,22 @@ while True:
         #collision
         if snail_rect.colliderect(player_rect):
             game_active = False
+            
     else:
-        screen.fill('Yellow')
+        screen.fill((94,129,162))
+        screen.blit(player_stand,player_stand_rect)
+        screen.blit(title_surf,title_rect)
+        prevscore_surf = text_font.render(f'Score: {score}', False, TEXTCOLOR)
+        prevscore_rect = prevscore_surf.get_rect(center = (400,325))
+
+        if score == 0:
+            screen.blit(instruction_surf,instruction_rect)
+        else:
+            screen.blit(prevscore_surf,prevscore_rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                game_state = True
 
     pygame.display.update()
     clock.tick(60)
