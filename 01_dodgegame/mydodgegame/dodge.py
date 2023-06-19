@@ -12,7 +12,7 @@ BADDIEMINSIZE = 25
 BADDIEMAXSIZE = 50
 BADDIEMINSPEED = 3
 BADDIEMAXSPEED = 8
-BADDIEFREQ = 15
+BADDIEFREQ = 5
 
 pygame.init()
 screen = pygame.display.set_mode((600,480))
@@ -30,12 +30,15 @@ baddie_surf = pygame.image.load('graphics/baddie.png').convert_alpha()
 baddie_list = []
 baddieAddCounter = 0
 
+#gameOverSound = pygame.mixer.Sound('broop.mp3')
+pygame.mixer.music.load('audio/broop.mp3')
+
 #score_surf = font.render(f"Score: {score}", False, BLUCK)
 #score_rect = score_surf.get_rect(bottomleft = (5,WINDOW_HEIGHT - 30))
 
 def welcome_screen():
     screen.fill(MAGENTA)
-    font = pygame.font.Font('fonts/Hack.ttf',25)
+    font = pygame.font.Font('fonts/Pixeltype.ttf',50)
     welcome_surf = font.render("It's raining baddies!", False, CREAM)
     welcome_rect = welcome_surf.get_rect(midbottom=(300,100)) 
     inst_surf = font.render("Press space.", False, CREAM)
@@ -51,6 +54,7 @@ def player_collide(player,baddie_list):
 
 
 game_active = False 
+pygame.mixer.music.play(-1, 0.0)
 
 while True:
     #check events/inputs
@@ -86,10 +90,13 @@ while True:
             if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 game_active = True
                 score = 0
+                pygame.mixer.music.rewind()
 
 
     #update here
     if game_active:
+        
+        
         if moving_down and player_rect.bottom < WINDOW_HEIGHT:
             player_rect.move_ip(0, 1 * MOVERATE)
         if moving_up and player_rect.top > 0:
@@ -111,7 +118,7 @@ while True:
             baddie_list.append(new_baddie)
         
         for baddies in baddie_list:
-            print(len(baddie_list))
+            #print(len(baddie_list))
             if baddies['rect'].top > WINDOW_HEIGHT:
                 baddie_list.remove(baddies)
             else:
@@ -120,10 +127,11 @@ while True:
         if player_collide(player_rect, baddie_list):
             game_active = False
             baddie_list.clear()
+            pygame.mixer.music.rewind()
             
     #draw functions
-    font = pygame.font.Font('fonts/Hack.ttf',15)
-    score_surf = font.render(f"Score: {score}", False, BLUCK)
+    font = pygame.font.Font('fonts/Pixeltype.ttf',30)
+    score_surf = font.render(f"Score: {score}", False, CREAM)
     score_rect = score_surf.get_rect(bottomleft = (5,WINDOW_HEIGHT - 30))
 
     if game_active:
@@ -137,7 +145,7 @@ while True:
     else:
         welcome_screen()
         if score > 0:
-            screen.blit(score_surf,score_surf.get_rect(midbottom = (WINDOW_HEIGHT // 2, 300)))
+            screen.blit(score_surf,score_surf.get_rect(midbottom = (300, 300)))
 
     
     pygame.display.update()
