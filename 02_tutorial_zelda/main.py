@@ -1,5 +1,6 @@
 import pygame, sys
 from settings import *
+from debug import debug
 
 class Game:
     def __init__(self):
@@ -7,6 +8,7 @@ class Game:
         #general setup
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
+        pygame.display.set_caption('Zelda')
         self.clock = pygame.time.Clock()
     
     def run(self):
@@ -17,6 +19,7 @@ class Game:
                     sys.exit()
 
             self.screen.fill('black')
+            debug('hello')
             pygame.display.update()
             self.clock.tick(FPS)
             
