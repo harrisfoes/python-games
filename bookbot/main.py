@@ -7,12 +7,12 @@ def main():
     print(f"--- Begin report of {book_path} ---")
     print(f"{count_words(contents)} words found in the document \n")
 
-    dummy_string = "The quick Brown Fox jumps over the lazy doog"
     char_dict = count_chars(contents)
     
     for key,value in char_dict.items():
         print(f"The '{key}' character was found {value} times")
 
+    print(f"--- End report ---")
 
 
 def open_book(path):
